@@ -8,12 +8,13 @@ typedef struct node {
     int kodeBarang;
     char namaBarang[20];
     int hargaBarang;
+    int stokBarang;
     struct node *left;
     struct node *right;
 } node;
 
 // alokasi node
-node *getNewNode(int kode, char nama[], int harga) {
+node *getNewNode(int kode, char nama[], int harga, int stok) {
     // pemberian alamat ke node baru
     node *newNode = (node*)malloc(sizeof(node));
 
@@ -21,6 +22,7 @@ node *getNewNode(int kode, char nama[], int harga) {
     newNode->kodeBarang = kode;
     strcpy(newNode->namaBarang, nama);
     newNode->hargaBarang = harga;
+    newNode->stokBarang = stok;
 
     newNode->left = newNode->right = NULL;
 
@@ -28,9 +30,9 @@ node *getNewNode(int kode, char nama[], int harga) {
 }
 
 // tambah node ke bst
-node *insert(node *rootPtr, int kode, char nama[], int harga) {
+node *insert(node *rootPtr, int kode, char nama[], int harga, int stok) {
     if(rootPtr == NULL) {
-        rootPtr = getNewNode(kode, nama, harga);
+        rootPtr = getNewNode(kode, nama, harga, stok);
     } else if(kode <= rootPtr->kodeBarang) {
         rootPtr->left = insert(rootPtr->left, kode, nama, harga);
     } else {
@@ -43,9 +45,9 @@ node *insert(node *rootPtr, int kode, char nama[], int harga) {
 // contoh memasukkan data ke bst
 // bisa dihapus kalo gak sesuai nanti
 node *insertBarang(node *rootPtr) {
-    rootPtr = insert(rootPtr, 112, "Penghapus", 2000);
-    rootPtr = insert(rootPtr, 111, "Pensil", 3500);
-    rootPtr = insert(rootPtr, 113, "Pulpen", 3000);
+    rootPtr = insert(rootPtr, 112, "Penghapus", 2000, 10);
+    rootPtr = insert(rootPtr, 111, "Pensil", 3500, 25);
+    rootPtr = insert(rootPtr, 113, "Pulpen", 3000, 15);
 
     return rootPtr;
 }
@@ -63,9 +65,20 @@ node *search(node *rootPtr, int kode) {
     }
 }
 
-// buat tampilan header dan menu di sini
-// return nilai (integer) yang dipilih user
+// buat tampilan header di sini
 // int header() {
+    
+// }
+
+// buat tampilan menu pertama di sini
+// return menu yg dipilih (int)
+// int menu1() {
+    
+// }
+
+// buat fungsi untuk menampilkan bst
+// pake tree traversal
+// void tampilkanBarang() {
     
 // }
 
@@ -89,6 +102,7 @@ int main() {
         printf("%d\n", dataRetrieved->kodeBarang);
         printf("%s\n", dataRetrieved->namaBarang);
         printf("%d\n", dataRetrieved->hargaBarang);
+        printf("%d\n", dataRetrieved->stokBarang);
     }
 
     return 0;
