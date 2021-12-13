@@ -76,15 +76,14 @@ node *search(node *rootPtr, int kode) {
     
 // }
 
-// buat fungsi untuk menampilkan bst
-// pake tree traversal
+// tampilan bisa diubah menjadi tabel
 void tampilkanBarang(node *rootPtr){
 	if(rootPtr!=NULL){
 		tampilkanBarang(rootPtr->left);
-		printf("%d", rootPtr->hargaBarang);
-		printf("%d", rootPtr->kodeBarang);
-		printf("%d", rootPtr->namaBarang);
-		printf("%d", rootPtr->stokBarang);
+		printf("%d ", rootPtr->kodeBarang);
+		printf("%s ", rootPtr->namaBarang);
+		printf("%d ", rootPtr->hargaBarang);
+		printf("%d\n", rootPtr->stokBarang);
 		tampilkanBarang(rootPtr->right);
 	}
 }
