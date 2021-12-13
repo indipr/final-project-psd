@@ -34,9 +34,9 @@ node *insert(node *rootPtr, int kode, char nama[], int harga, int stok) {
     if(rootPtr == NULL) {
         rootPtr = getNewNode(kode, nama, harga, stok);
     } else if(kode <= rootPtr->kodeBarang) {
-        rootPtr->left = insert(rootPtr->left, kode, nama, harga);
+        rootPtr->left = insert(rootPtr->left, kode, nama, harga, stok);
     } else {
-        rootPtr->right = insert(rootPtr->right, kode, nama, harga);
+        rootPtr->right = insert(rootPtr->right, kode, nama, harga, stok);
     }
 
     return rootPtr;
@@ -78,9 +78,16 @@ node *search(node *rootPtr, int kode) {
 
 // buat fungsi untuk menampilkan bst
 // pake tree traversal
-// void tampilkanBarang() {
-    
-// }
+void tampilkanBarang(node *rootPtr){
+	if(rootPtr!=NULL){
+		tampilkanBarang(rootPtr->left);
+		printf("%d", rootPtr->hargaBarang);
+		printf("%d", rootPtr->kodeBarang);
+		printf("%d", rootPtr->namaBarang);
+		printf("%d", rootPtr->stokBarang);
+		tampilkanBarang(rootPtr->right);
+	}
+}
 
 int main() {
     // deklarasi root dari bst
