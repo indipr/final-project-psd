@@ -102,7 +102,6 @@ void tampilkanBarang(node *rootPtr){
 
 
 int main() {
-	main:
     // system("clear");
 
     // deklarasi root dari bst
@@ -114,9 +113,11 @@ int main() {
     // perulangan menu utama
     // infinity loop sampai user pilih keluar
     int cont;   // var untuk pause sebelum lanjut ke loop berikutnya
+    int secpilih;   // var untuk pilih menu di owner privilege
     while (1)
     {
         // user memilih menu tiap perulangan
+        // system("clear");
         switch(menu1()) {
             case 1: // lihat barang
                 printf("\n");
@@ -133,23 +134,25 @@ int main() {
             case 3:
                 printf("\nTerimakasih Telah Berbelanja di Tempat Kami ^^\n\n"); // bisa diedit
                 exit(0);
-	    case 220602
-            // case secret code di sini
-		int secpilih;
-		printf("\n=============================================");
-		printf("\n            Owner Privilage Menu             ");
-		printf("\n=============================================");
-		printf("\n         1. Kembali Ke Menu Utama");
-		printf("\n         2. Stok barang");
-		printf("\n         3. Rekapan");
-		printf("\nMasukan Pilihan anda: ");
-		scanf("%d" &secpilih);
-			if(secpilih==1){
-				goto main;
-			}else if(secpilih==2){
-				//fungsi stok barang
-			}else if(secpilig==3){
-				//fungsi rekapan}
+	    case 220602:    // case secret code
+		
+                printf("\n=============================================");
+                printf("\n            Owner Privilage Menu             ");
+                printf("\n=============================================");
+                printf("\n         1. Kembali Ke Menu Utama");
+                printf("\n         2. Stok Barang");
+                printf("\n         3. Rekapan\n");
+                printf("\nMasukan Pilihan anda: ");
+                scanf("%d", &secpilih);
+                if(secpilih==1){
+                    break;
+                }else if(secpilih==2){
+                    //fungsi stok barang
+                    break;
+                }else if(secpilih==3){
+                    //fungsi rekapan
+                    break;
+                }
             default:
                 puts("\nMenu tidak valid...\n"); // bisa diedit
         }
@@ -173,6 +176,4 @@ int main() {
     //     printf("%d\n", dataRetrieved->hargaBarang);
     //     printf("%d\n", dataRetrieved->stokBarang);
     // }
-
-    return 0;
 }
