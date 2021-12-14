@@ -102,6 +102,7 @@ void tampilkanBarang(node *rootPtr){
 
 
 int main() {
+	main:
     // system("clear");
 
     // deklarasi root dari bst
@@ -132,9 +133,23 @@ int main() {
             case 3:
                 printf("\nTerimakasih Telah Berbelanja di Tempat Kami ^^\n\n"); // bisa diedit
                 exit(0);
-
+	    case 220602
             // case secret code di sini
-
+		int secpilih;
+		printf("\n=============================================");
+		printf("\n            Owner Privilage Menu             ");
+		printf("\n=============================================");
+		printf("\n         1. Kembali Ke Menu Utama");
+		printf("\n         2. Stok barang");
+		printf("\n         3. Rekapan");
+		printf("\nMasukan Pilihan anda: ");
+		scanf("%d" &secpilih);
+			if(secpilih==1){
+				goto main;
+			}else if(secpilih==2){
+				//fungsi stok barang
+			}else if(secpilig==3){
+				//fungsi rekapan}
             default:
                 puts("\nMenu tidak valid...\n"); // bisa diedit
         }
