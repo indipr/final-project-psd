@@ -1,0 +1,263 @@
+#include<stdio.h>
+
+#include<stdlib.h>
+
+void belanja();
+
+void bayar();
+
+int barang;
+
+struct listitem
+
+{
+    int menu1,menu2,menu3,menu4,menu5,menu6,menu7,menu8,menu9,menu10;
+};
+
+struct harga
+
+{
+    int harga1,harga2,harga3,harga4,harga5,harga6,harga7,harga8,harga9,harga10;
+
+    int hargatotal,bayar,kembalian;
+};
+
+struct listitem item;
+
+struct harga sub;
+
+
+int main(){
+
+    belanja();
+
+    return 0;
+
+}
+
+void belanja(void){
+
+menu:
+
+puts("\n\t\t\t\t\t\tSELAMAT DATANG DI Chuanzzzz");
+
+puts("\n\t\t\t\t\t\t\t@ Item List @");
+
+puts("\n");
+
+puts("\n=============================================");
+
+puts("\n|Pil.|     Barang  \t|      Harga   |");
+
+puts("\n---------------------------------------------");
+
+puts("\n| 1. | Nugget  \t\t|   Rp. 20.000 |");
+
+puts("\n| 2. | Mobil    \t|   Rp. 30.000 |");
+
+puts("\n| 3. | Rumah    \t|   Rp. 19.000 |");
+
+puts("\n| 4. | Kapal     \t|   Rp. 1.000  |");
+
+puts("\n| 5. | Pesawat \t\t|   Rp. 2.000  |");
+
+puts("\n| 6. | UFO \t\t|   Rp. 18.000 |");
+
+puts("\n| 7. | Sapi \t\t|   Rp. 22.000 |");
+
+puts("\n---------------------------------------------");
+
+puts("\nSelamat Berbelanja ^^");
+
+puts("\n\n00. Keluar \t99. Harga Total");
+
+puts("\n===================================");
+
+for (barang!=00;barang!=99;){
+
+
+
+printf("\nPilihan Item [Masukan Angka]: ");scanf("%d",&barang);
+
+switch(barang){
+
+case 1:
+
+    printf("Nugget");
+
+    printf("\n\tJumlah Barang =   ");
+
+    scanf("%d",&item.menu1);
+
+    sub.harga1= item.menu1*18;
+
+    printf("\t\tTotal Harga %i.000",sub.harga1);
+
+    break;
+
+case 2:
+
+    printf("Mobil");
+
+    printf("\n\tJumlah Barang =   ");
+
+    scanf("%d",&item.menu2);
+
+    sub.harga2= item.menu2*19;
+
+    printf("\t\tTotal Harga %i.000",sub.harga2);
+
+    break;
+
+case 3:
+
+    printf("Rumah");
+
+    printf("\n\tJumlah Barang =   ");
+
+    scanf("%d",&item.menu3);
+
+    sub.harga3= item.menu3*19;
+
+    printf("\t\tTotal Harga %i.000",sub.harga3);
+
+    break;
+
+case 4:
+
+    printf("Kapal");
+
+    printf("\n\tJumlah Barang =   ");
+
+    scanf("%d",&item.menu4);
+
+    sub.harga4= item.menu4*20;
+
+    printf("\t\tTotal Harga %i.000",sub.harga4);
+
+    break;
+
+case 5:
+
+    printf("Pesawat");
+
+    printf("\n\tJumlah Barang =   ");
+
+    scanf("%d",&item.menu5);
+
+    sub.harga5= item.menu5*22;
+
+    printf("\t\tTotal Harga %i.000",sub.harga5);
+
+    break;
+
+case 6:
+
+    printf("UFO");
+
+    printf("\n\tJumlah Barang =   ");
+
+    scanf("%d",&item.menu6);
+
+    sub.harga6= item.menu6*6;
+
+    printf("\t\tTotal Harga %i.000",sub.harga6);
+
+    break;
+
+case 7:
+
+    printf("Sapi");
+
+    printf("\n\tJumlah Barang =   ");
+
+    scanf("%d",&item.menu7);
+
+    sub.harga7= item.menu7*6;
+
+    printf("\t\tTotal Harga %i.000",sub.harga7);
+
+    break;
+
+case 8:
+
+    printf("Tempe Geprek");
+
+    printf("\n\tJumlah Barang =   ");
+
+    scanf("%d",&item.menu8);
+
+    sub.harga8= item.menu8*6;
+
+    printf("\t\tTotal Harga %i.000",sub.harga8);
+
+    break;
+
+case 9:
+
+    printf("Telor Geprek");
+
+    printf("\n\tJumlah Barang =   ");
+
+    scanf("%d",&item.menu9);
+
+    sub.harga9= item.menu9*6;
+
+    printf("\t\tTotal Harga %i.000",sub.harga9);
+
+    break;
+
+
+case 00:
+
+    exit(0);
+
+    break;
+
+case 99:
+
+    bayar();
+
+    break;
+
+}
+
+}
+
+}
+
+void bayar(void){
+
+sub.hargatotal=sub.harga1+sub.harga2+sub.harga3+sub.harga4+sub.harga5+sub.harga6+sub.harga7+sub.harga8+sub.harga9+sub.harga10;
+
+printf("\nHARGA TOTAL : Rp. %d.000",sub.hargatotal);
+
+ jumlahbayar:
+
+            printf("\n\nNominal Pembayaran= Rp. ");scanf("%d",&sub.bayar);
+
+
+
+            if (sub.bayar>=sub.hargatotal)
+
+            {
+
+            sub.kembalian=sub.bayar-sub.hargatotal;
+
+            printf("\nKembalian = Rp. %d.000", sub.kembalian);
+
+            }
+
+            if (sub.bayar<sub.hargatotal)
+
+            {
+
+                printf("Uang Anda tidak cukup! Silakan input ulang\n");
+
+                goto jumlahbayar;
+
+            }
+
+   printf("\nTerimakasih Telah Berbelanja Ditempapt Kami ^^");
+
+}
