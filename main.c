@@ -45,6 +45,7 @@ node *insert(node *rootPtr, int kode, char nama[], int harga, int stok) {
 // contoh memasukkan data ke bst
 // bisa dihapus kalo gak sesuai nanti
 node *insertBarang(node *rootPtr) {
+    //                      kode  | nama    |  harga | stok 
     rootPtr = insert(rootPtr, 112, "Penghapus", 2000, 10);
     rootPtr = insert(rootPtr, 111, "Pensil", 3500, 25);
     rootPtr = insert(rootPtr, 113, "Pulpen", 3000, 15);
@@ -65,51 +66,98 @@ node *search(node *rootPtr, int kode) {
     }
 }
 
-// buat tampilan header di sini
-// int header() {
-    
-// }
+// tampilan menu pertama
+// mengembalikan menu yg dipilih (int)
+// kalo ini diubah, inget ubah yg di switch case di fungsi main (line 119)
+int menu1() {
+    puts("\n");
+    puts("\n=============================================");
+    puts("\n        SELAMAT DATANG DI Chuanzzzz          ");
+    puts("\n---------------------------------------------");
+    puts("\n               1. Lihat Barang");
+    puts("\n               2. Beli Barang");
+    puts("\n               3. Keluar\n\n");
 
-// buat tampilan menu pertama di sini
-// return menu yg dipilih (int)
-// int menu1() {
-    
-// }
+    int pilih;
+    printf("Pilih menu: ");
+    scanf("%d", &pilih);
 
-// tampilan bisa diubah menjadi tabel
+    return pilih;
+}
+
+// menu lihat barang untuk umum
 void tampilkanBarang(node *rootPtr){
 	if(rootPtr!=NULL){
 		tampilkanBarang(rootPtr->left);
-		printf("%d ", rootPtr->kodeBarang);
-		printf("%s ", rootPtr->namaBarang);
-		printf("%d ", rootPtr->hargaBarang);
-		printf("%d\n", rootPtr->stokBarang);
+        printf("| %-4d | %-15s | %-7d |\n", rootPtr->kodeBarang, rootPtr->namaBarang, rootPtr->hargaBarang);
+		// printf("%d ", rootPtr->kodeBarang);
+		// printf("%s ", rootPtr->namaBarang);
+		// printf("%d ", rootPtr->hargaBarang);
+		// printf("%d\n", rootPtr->stokBarang);
 		tampilkanBarang(rootPtr->right);
 	}
 }
 
+// menu lihat barang untuk owner
+
+
 int main() {
+    // system("clear");
+
     // deklarasi root dari bst
     node *rootPtr = NULL;
 
     // masukkan data ke bst
     rootPtr = insertBarang(rootPtr);
 
+    // perulangan menu utama
+    // infinity loop sampai user pilih keluar
+    int cont;   // var untuk pause sebelum lanjut ke loop berikutnya
+    while (1)
+    {
+        // user memilih menu tiap perulangan
+        switch(menu1()) {
+            case 1: // lihat barang
+                printf("\n");
+                printf("+------+-----------------+---------+\n");
+                printf("| Kode |   Nama Barang   |  Harga  |\n");
+                printf("+------+-----------------+---------+\n");
+                tampilkanBarang(rootPtr);
+                printf("+------+-----------------+---------+\n");
+                break;
+            case 2: // beli barang
+                // tampilkanBarang(rootPtr);
+                // fungsi beli barang di sini
+                break;
+            case 3:
+                printf("\nTerimakasih Telah Berbelanja di Tempat Kami ^^\n\n"); // bisa diedit
+                exit(0);
+
+            // case secret code di sini
+
+            default:
+                puts("\nMenu tidak valid...\n"); // bisa diedit
+        }
+
+        printf("\nKetik 1 untuk lanjut ");
+        scanf("%d", &cont);
+    }
+    
     // contoh mencari barang
-    int kode;
-    printf("masukkan kode barang: ");
-    scanf("%d", &kode);
+    // int kode;
+    // printf("masukkan kode barang: ");
+    // scanf("%d", &kode);
 
     // masukkan hasil pencarian ke variabel untuk dicetak nantinya
-    node *dataRetrieved = search(rootPtr, kode);
-    if(dataRetrieved == NULL) {
-        printf("data tidak ada\n");
-    } else {
-        printf("%d\n", dataRetrieved->kodeBarang);
-        printf("%s\n", dataRetrieved->namaBarang);
-        printf("%d\n", dataRetrieved->hargaBarang);
-        printf("%d\n", dataRetrieved->stokBarang);
-    }
+    // node *dataRetrieved = search(rootPtr, kode);
+    // if(dataRetrieved == NULL) {
+    //     printf("data tidak ada\n");
+    // } else {
+    //     printf("%d\n", dataRetrieved->kodeBarang);
+    //     printf("%s\n", dataRetrieved->namaBarang);
+    //     printf("%d\n", dataRetrieved->hargaBarang);
+    //     printf("%d\n", dataRetrieved->stokBarang);
+    // }
 
     return 0;
 }
