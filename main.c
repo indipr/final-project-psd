@@ -14,6 +14,10 @@ typedef struct node {
     struct node *right;
 } node;
 
+int totalpenjualan;
+int totalpengeluaran;
+int jumlahtransaksi;
+
 FILE *fp = NULL;    // pointer untuk file data barang
 // FILE *fp1 = NULL;   // pointer untuk file backup
 
@@ -90,7 +94,7 @@ node *search(node *rootPtr, int kode) {
 }
 
 void beliBarang(node *rootPtr) {
-    int kode, jumlah, totalHarga = 0;
+    int kode, jumlah,totalHarga = 0;
     int ulang = 0;
     node *data; // var untuk menampung barang yg dicari
     do {
@@ -105,10 +109,11 @@ void beliBarang(node *rootPtr) {
             printf("\nOops... Barang/stok tidak ada\n");
         } else {
             totalHarga += data->hargaBarang * jumlah;
+            totalpengeluaran += data->modalBarang * jumlah;
             data->stokBarang -= jumlah;
-            // masukin ke struk
+            puts("Barang yang anda beli : ");
+            printf("nama barang %s harga barang %d  jumlah %d\n",data->namaBarang,data->hargaBarang,jumlah);
         }
-
         printf("\nKetik 1 jika ingin membeli yg lain, 0 jika selesai ");
         scanf("%d", &ulang);
     } while(ulang == 1);
@@ -121,7 +126,8 @@ void beliBarang(node *rootPtr) {
         if(bayar >= totalHarga) {
             kembalian = bayar - totalHarga;
             printf("\nKembalian = %d\n", kembalian);
-            // abistu masukin ke struk
+            totalpenjualan += totalHarga; 
+            jumlahtransaksi++;
         } else {
             printf("\nOops.. uang tidak cukup\nSilakan ulang...\n");
         }
@@ -133,7 +139,7 @@ void beliBarang(node *rootPtr) {
 // kalo ini diubah, inget ubah yg di switch case di fungsi main
 int menu1() {
     puts("\n");
-    puts("\n=============================================");
+    puts("\n=============================================                                       220602");
     puts("\n        SELAMAT DATANG DI Chuanzzzz          ");
     puts("\n---------------------------------------------");
     puts("\n               1. Lihat Barang");
@@ -157,12 +163,73 @@ void tampilkanBarang(node *rootPtr){
 	}
 }
 
+void tampilkanstok(node *rootPtr){
+	if(rootPtr!=NULL){
+		tampilkanstok(rootPtr->left);
+        printf("| %d | %d | %d | %d  | %s |\n", rootPtr->kodeBarang,rootPtr->modalBarang,rootPtr->hargaBarang,rootPtr->stokBarang,rootPtr->namaBarang);
+		tampilkanstok(rootPtr->right);
+	}
+}
+
+void tambahstok(node *rootPtr)
+{
+    node *data;
+    int kode,stok;
+    printf("Masukan Kode barang yang ingin ditambah stok : ");
+    scanf("%d",&kode);
+    data = search(rootPtr, kode);
+    printf("| %d | %d | %d | %d  | %s |\n",data->kodeBarang,data->modalBarang,data->hargaBarang,data->stokBarang,data->namaBarang);
+    printf("Masukan Jumlah stok yang ingin ditambahkan : ");
+    scanf("%d",&stok);
+    data->stokBarang += stok;
+    puts("Stok berhasil ditambahkan!");
+}
+
+int stokbarang()
+{
+    node *rootPtr = NULL;
+    rootPtr = insertBarang(rootPtr);
+    int pil;
+    puts("Stok barang : ");
+    puts("1. Tampilkan stok");
+    puts("2. Tambah barang");
+    puts("3. Tambah stok");
+    puts("4. Hapus Barang");
+    printf("Masukan Pilihan anda : ");
+    scanf("%d",&pil);
+    switch(pil)
+    {
+        case 1:
+        printf("\n");
+                printf("+------+-----------------+---------+\n");
+                printf("| Kode | Modal | Harga | Stok | Nama Barang |\n");
+                printf("+------+-----------------+---------+\n");
+                tampilkanstok(rootPtr);
+                printf("+------+-----------------+---------+\n");
+        break;
+        case 2:
+        
+        break;
+        case 3:
+        tambahstok(rootPtr);
+        break;
+    }
+}
 // menu lihat barang untuk owner
 
+int rekap()
+{
+    int keuntungan;
+    keuntungan = totalpenjualan - totalpengeluaran;
+    printf("Total Penjualan : %d\n",totalpenjualan);
+    printf("Total Pengeluaran : %d\n",totalpengeluaran);
+    printf("Total Keuntungan : %d\n",keuntungan);
+    printf("Jumlah Transaksi : %d\n",jumlahtransaksi);
+}
 
 int main() {
     // system("clear");
-
+    
     // deklarasi root dari bst
     node *rootPtr = NULL;
 
@@ -218,10 +285,10 @@ int main() {
                 if(secpilih==1){
                     break;
                 }else if(secpilih==2){
-                    //fungsi stok barang
+                    stokbarang();
                     break;
                 }else if(secpilih==3){
-                    //fungsi rekapan
+                    rekap();
                     break;
                 }
             default:
