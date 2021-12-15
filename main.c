@@ -7,20 +7,25 @@
 typedef struct node {
     int kodeBarang;
     char namaBarang[20];
+    int modalBarang;
     int hargaBarang;
     int stokBarang;
     struct node *left;
     struct node *right;
 } node;
 
+FILE *fp = NULL;    // pointer untuk file data barang
+// FILE *fp1 = NULL;   // pointer untuk file backup
+
 // alokasi node
-node *getNewNode(int kode, char nama[], int harga, int stok) {
+node *getNewNode(int kode, char nama[], int modal, int harga, int stok) {
     // pemberian alamat ke node baru
     node *newNode = (node*)malloc(sizeof(node));
 
     // copy parameter ke elemen dari node baru
     newNode->kodeBarang = kode;
     strcpy(newNode->namaBarang, nama);
+    newNode->modalBarang = modal;
     newNode->hargaBarang = harga;
     newNode->stokBarang = stok;
 
@@ -30,27 +35,45 @@ node *getNewNode(int kode, char nama[], int harga, int stok) {
 }
 
 // tambah node ke bst
-node *insert(node *rootPtr, int kode, char nama[], int harga, int stok) {
+node *insert(node *rootPtr, int kode, char nama[], int modal, int harga, int stok) {
     if(rootPtr == NULL) {
-        rootPtr = getNewNode(kode, nama, harga, stok);
+        rootPtr = getNewNode(kode, nama, modal, harga, stok);
     } else if(kode <= rootPtr->kodeBarang) {
-        rootPtr->left = insert(rootPtr->left, kode, nama, harga, stok);
+        rootPtr->left = insert(rootPtr->left, kode, nama, modal, harga, stok);
     } else {
-        rootPtr->right = insert(rootPtr->right, kode, nama, harga, stok);
+        rootPtr->right = insert(rootPtr->right, kode, nama, modal, harga, stok);
     }
 
     return rootPtr;
 }
 
-// contoh memasukkan data ke bst
-// bisa dihapus kalo gak sesuai nanti
+// memasukkan data dari file data_barang ke bst
 node *insertBarang(node *rootPtr) {
-    //                      kode  | nama    |  harga | stok 
-    rootPtr = insert(rootPtr, 112, "Penghapus", 2000, 10);
-    rootPtr = insert(rootPtr, 111, "Pensil", 3500, 25);
-    rootPtr = insert(rootPtr, 113, "Pulpen", 3000, 15);
+    // var untuk menampung sementara data dari file
+    int kode_f, modal_f, harga_f, stok_f;
+    char nama_f[20];
+
+    fp = fopen("data_barang.txt", "r");
+    while(fscanf(fp, "%d %d %d %d %[^\n]s", &kode_f, &modal_f, &harga_f, &stok_f, nama_f) != EOF) {
+        rootPtr = insert(rootPtr, kode_f, nama_f, modal_f, harga_f, stok_f);
+    }
+    fclose(fp);
 
     return rootPtr;
+}
+
+// update file data barang dgn memasukkan data dari bst
+void updateData(node *rootPtr) {
+    fp = fopen("data_barang_new.txt", "a");
+
+    // preorder traversal
+    if(rootPtr != NULL) {
+        fprintf(fp, "%d %d %d %d %s\n", rootPtr->kodeBarang, rootPtr->modalBarang, rootPtr->hargaBarang, rootPtr->stokBarang, rootPtr->namaBarang);
+        updateData(rootPtr->left);
+        updateData(rootPtr->right);
+    }
+
+    fclose(fp);
 }
 
 // pencarian berdasarkan kode barang
@@ -66,9 +89,48 @@ node *search(node *rootPtr, int kode) {
     }
 }
 
+void beliBarang(node *rootPtr) {
+    int kode, jumlah, totalHarga = 0;
+    int ulang = 0;
+    node *data; // var untuk menampung barang yg dicari
+    do {
+        printf("\nMasukkan kode barang: ");
+        scanf("%d", &kode);
+        printf("Masukkan jumlah: ");
+        scanf("%d", &jumlah);
+
+        // cari harga berdasarkan kodenya
+        data = search(rootPtr, kode);
+        if(data == NULL || data->stokBarang < jumlah) {
+            printf("\nOops... Barang/stok tidak ada\n");
+        } else {
+            totalHarga += data->hargaBarang * jumlah;
+            data->stokBarang -= jumlah;
+            // masukin ke struk
+        }
+
+        printf("\nKetik 1 jika ingin membeli yg lain, 0 jika selesai ");
+        scanf("%d", &ulang);
+    } while(ulang == 1);
+
+    int bayar, kembalian;
+    printf("\nTotal belanja = %d\n", totalHarga);
+    do {
+        printf("\nNominal pembayaran = ");
+        scanf("%d", &bayar);
+        if(bayar >= totalHarga) {
+            kembalian = bayar - totalHarga;
+            printf("\nKembalian = %d\n", kembalian);
+            // abistu masukin ke struk
+        } else {
+            printf("\nOops.. uang tidak cukup\nSilakan ulang...\n");
+        }
+    } while(bayar < totalHarga);
+}
+
 // tampilan menu pertama
 // mengembalikan menu yg dipilih (int)
-// kalo ini diubah, inget ubah yg di switch case di fungsi main (line 119)
+// kalo ini diubah, inget ubah yg di switch case di fungsi main
 int menu1() {
     puts("\n");
     puts("\n=============================================");
@@ -85,15 +147,12 @@ int menu1() {
     return pilih;
 }
 
-// menu lihat barang untuk umum
+// inorder traversal
+// menu lihat barang untuk umum, tidak menampilkan stok
 void tampilkanBarang(node *rootPtr){
 	if(rootPtr!=NULL){
 		tampilkanBarang(rootPtr->left);
         printf("| %-4d | %-15s | %-7d |\n", rootPtr->kodeBarang, rootPtr->namaBarang, rootPtr->hargaBarang);
-		// printf("%d ", rootPtr->kodeBarang);
-		// printf("%s ", rootPtr->namaBarang);
-		// printf("%d ", rootPtr->hargaBarang);
-		// printf("%d\n", rootPtr->stokBarang);
 		tampilkanBarang(rootPtr->right);
 	}
 }
@@ -125,17 +184,29 @@ int main() {
                 printf("| Kode |   Nama Barang   |  Harga  |\n");
                 printf("+------+-----------------+---------+\n");
                 tampilkanBarang(rootPtr);
-                printf("+------+-----------------+---------+\n");
+                printf("+------+-----------------+---------+\n");                
                 break;
             case 2: // beli barang
-                // tampilkanBarang(rootPtr);
+                // tampilkan barang dulu
+                printf("\n");
+                printf("+------+-----------------+---------+\n");
+                printf("| Kode |   Nama Barang   |  Harga  |\n");
+                printf("+------+-----------------+---------+\n");
+                tampilkanBarang(rootPtr);
+                printf("+------+-----------------+---------+\n");
+
                 // fungsi beli barang di sini
+                beliBarang(rootPtr);
                 break;
             case 3:
+                // update stok di file
+                updateData(rootPtr);
+                remove("data_barang.txt");
+                rename("data_barang_new.txt", "data_barang.txt");
                 printf("\nTerimakasih Telah Berbelanja di Tempat Kami ^^\n\n"); // bisa diedit
                 exit(0);
-	    case 220602:    // case secret code
-		
+	        case 220602:    // case secret code
+                system("clear");
                 printf("\n=============================================");
                 printf("\n            Owner Privilage Menu             ");
                 printf("\n=============================================");
@@ -160,20 +231,4 @@ int main() {
         printf("\nKetik 1 untuk lanjut ");
         scanf("%d", &cont);
     }
-    
-    // contoh mencari barang
-    // int kode;
-    // printf("masukkan kode barang: ");
-    // scanf("%d", &kode);
-
-    // masukkan hasil pencarian ke variabel untuk dicetak nantinya
-    // node *dataRetrieved = search(rootPtr, kode);
-    // if(dataRetrieved == NULL) {
-    //     printf("data tidak ada\n");
-    // } else {
-    //     printf("%d\n", dataRetrieved->kodeBarang);
-    //     printf("%s\n", dataRetrieved->namaBarang);
-    //     printf("%d\n", dataRetrieved->hargaBarang);
-    //     printf("%d\n", dataRetrieved->stokBarang);
-    // }
 }
