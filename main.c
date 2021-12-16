@@ -6,7 +6,7 @@
 // node diurutkan berdasarkan kode barang (int)
 typedef struct node {
     int kodeBarang;
-    char namaBarang[20];
+    char namaBarang[50];
     int modalBarang;
     int hargaBarang;
     int stokBarang;
@@ -98,38 +98,38 @@ void beliBarang(node *rootPtr) {
     int ulang = 0;
     node *data; // var untuk menampung barang yg dicari
     do {
-        printf("\nMasukkan kode barang: ");
+        printf("\nMasukkan Kode Barang Yang Ingin Dibeli: ");
         scanf("%d", &kode);
-        printf("Masukkan jumlah: ");
+        printf("\nMasukkan Jumlah Barang Yang Ingin Dibeli: ");
         scanf("%d", &jumlah);
 
         // cari harga berdasarkan kodenya
         data = search(rootPtr, kode);
         if(data == NULL || data->stokBarang < jumlah) {
-            printf("\nOops... Barang/stok tidak ada\n");
+            printf("\nOops... Barang/Stok Tidak Ada\n");
         } else {
             totalHarga += data->hargaBarang * jumlah;
             totalpengeluaran += data->modalBarang * jumlah;
             data->stokBarang -= jumlah;
-            puts("Barang yang anda beli : ");
-            printf("nama barang %s harga barang %d  jumlah %d\n",data->namaBarang,data->hargaBarang,jumlah);
+            puts("\nDetail Barang Yang Anda Beli : ");
+            printf("Nama Barang %s Harga Barang %d Dan Jumlah %s Yang Dibeli %d\n",data->namaBarang,data->hargaBarang,data->namaBarang,jumlah);
         }
-        printf("\nKetik 1 jika ingin membeli yg lain, 0 jika selesai ");
+        printf("\nKetik 1 Jika Ingin Menambah Pembelian, 0 Jika Ingin Membayar ");
         scanf("%d", &ulang);
     } while(ulang == 1);
 
     int bayar, kembalian;
-    printf("\nTotal belanja = %d\n", totalHarga);
+    printf("\nTotal Belanja Yang Harus Dibayar = %d\n", totalHarga);
     do {
-        printf("\nNominal pembayaran = ");
+        printf("\nMasukkan Nominal Pembayaran = ");
         scanf("%d", &bayar);
         if(bayar >= totalHarga) {
             kembalian = bayar - totalHarga;
             printf("\nKembalian = %d\n", kembalian);
-            totalpenjualan += totalHarga; 
+            totalpenjualan += totalHarga;
             jumlahtransaksi++;
         } else {
-            printf("\nOops.. uang tidak cukup\nSilakan ulang...\n");
+            printf("\nOops.. Uang Tidak Cukup\nMasukkan Nominal Yang Sesuai...\n");
         }
     } while(bayar < totalHarga);
 }
@@ -138,7 +138,7 @@ void beliBarang(node *rootPtr) {
 // mengembalikan menu yg dipilih (int)
 // kalo ini diubah, inget ubah yg di switch case di fungsi main
 int menu1() {
-    puts("\n=============================================                                       220602");
+    puts("\n=============================================");
     puts("\n        SELAMAT DATANG DI Chuanzzzz          ");
     puts("\n---------------------------------------------");
     puts("\n               1. Lihat Barang");
@@ -175,37 +175,37 @@ void tambahstok(node *rootPtr)
 {
     node *data;
     int kode,stok;
-    printf("Masukan Kode barang yang ingin ditambah stok : ");
+    printf("Masukan Kode Barang Yang Stoknya Ingin Ditambahkan : ");
     scanf("%d",&kode);
     data = search(rootPtr, kode);
     if(data == NULL) {
-        puts("Data tidak ditemukan..");
+        puts("Data Tidak Ditemukan..");
         return;
     }
     printf("| %d | %d | %d | %d  | %s |\n",data->kodeBarang,data->modalBarang,data->hargaBarang,data->stokBarang,data->namaBarang);
-    printf("Masukan Jumlah stok yang ingin ditambahkan : ");
+    printf("Masukan Jumlah Stok Yang Ingin Ditambahkan : ");
     scanf("%d",&stok);
     data->stokBarang += stok;
-    puts("Stok berhasil ditambahkan!");
+    puts("Stok Berhasil Ditambahkan!");
 }
 
 void tambahBarang(node *rootPtr) {
     int kode, modal, harga, stok;
     char nama[20];
 
-    printf("\nMasukkan kode barang: ");
+    printf("\nMasukkan Kode Barang: ");
     scanf("%d", &kode);
     if(search(rootPtr, kode) != NULL) {
-        puts("Kode barang sudah ada...");
+        puts("Kode Barang Sudah Ada...");
         return;
     }
-    printf("\nMasukkan modal: ");
+    printf("\nMasukkan Modal: ");
     scanf("%d", &modal);
-    printf("\nMasukkan harga jual: ");
+    printf("\nMasukkan Harga Jual: ");
     scanf("%d", &harga);
-    printf("\nMasukkan stok: ");
+    printf("\nMasukkan Stok: ");
     scanf("%d", &stok);
-    printf("\nMasukkan nama barang: ");
+    printf("\nMasukkan Nama Barang: ");
     scanf("\n");
     scanf("%[^\n]s", nama);
 
@@ -234,7 +234,7 @@ node *hapusBarang(node *rootPtr, int kode) {
             free(rootPtr);
             rootPtr = NULL;
         }
-        // 1 child 
+        // 1 child
         else if(rootPtr->left == NULL) {
             node *temp = rootPtr;
             rootPtr = rootPtr->right;
@@ -269,12 +269,12 @@ node *stokbarang(node *rootPtr)
 
     while(1) {
         puts("Stok barang : ");
-        puts("1. Tampilkan stok");
-        puts("2. Tambah barang");
-        puts("3. Tambah stok");
+        puts("1. Tampilkan Stok");
+        puts("2. Tambah Barang");
+        puts("3. Tambah Stok");
         puts("4. Hapus Barang");
         puts("5. Kembali");
-        printf("Masukan Pilihan anda : ");
+        printf("Masukan Pilihan Anda : ");
         scanf("%d",&pil);
 
         switch(pil)
@@ -294,23 +294,23 @@ node *stokbarang(node *rootPtr)
                 tambahstok(rootPtr);
                 break;
             case 4: // hapus barang
-                printf("Masukkan kode barang yang mau dihapus: ");
+                printf("Masukkan Kode Barang Yang Mau Dihapus: ");
                 scanf("%d", &kode);
 
                 if(search(rootPtr, kode) == NULL) {
-                    puts("Kode tidak ditemukan...");
+                    puts("Kode Tidak Ditemukan...");
                     break;
                 }
 
                 rootPtr = hapusBarang(rootPtr, kode);
-                puts("Penghapusan berhasil");
+                puts("Penghapusan Berhasil");
                 break;
             case 5:
                 return rootPtr;
             default:
-                puts("Menu tidak valid...");
+                puts("Menu Yang Dipilih Tidak Ada...");
         }
-        printf("\nKetik 1 untuk lanjut ");
+        printf("\nKetik Angka 1 Lalu Enter Untuk Melanjutkan : ");
         scanf("%d", &cont);
     }
 }
@@ -326,8 +326,8 @@ void rekap()
 }
 
 int main() {
-    // system("clear");
-    
+
+
     // deklarasi root dari bst
     node *rootPtr = NULL;
 
@@ -347,14 +347,18 @@ int main() {
         switch(menu1()) {
             case 1: // lihat barang
                 printf("\n");
+                printf("Daftar Barang");
+                printf("\n");
                 printf("+------+-----------------+---------+\n");
                 printf("| Kode |   Nama Barang   |  Harga  |\n");
                 printf("+------+-----------------+---------+\n");
                 tampilkanBarang(rootPtr);
-                printf("+------+-----------------+---------+\n");                
+                printf("+------+-----------------+---------+\n");
                 break;
             case 2: // beli barang
                 // tampilkan barang dulu
+                printf("\n");
+                 printf("Daftar Barang");
                 printf("\n");
                 printf("+------+-----------------+---------+\n");
                 printf("| Kode |   Nama Barang   |  Harga  |\n");
@@ -373,7 +377,7 @@ int main() {
                 exit(0);
 	        case 220602:    // case secret code
                 do {
-                    system("clear");
+                    system("cls");
                     printf("\n=============================================");
                     printf("\n            Owner Privilage Menu             ");
                     printf("\n=============================================");
@@ -391,15 +395,16 @@ int main() {
                         rekap();
                         //break;
                     }
-                    printf("\nKetik 1 untuk tetap di owner privilege, 0 untuk keluar ");
+                    printf("\nKetik Angka 1 Untuk Ke Owner Privilage,Ketik 0 Untuk Ke Menu Utama Lalu Enter ");
                     scanf("%d", &ulang);
                 } while(ulang == 1);
                 break;
             default:
-                puts("\nMenu tidak valid...\n"); // bisa diedit
+                puts("\nMenu Yang Dipilih Tidak Ada...\n");
         }
 
-        printf("\nKetik 1 untuk lanjut ");
+        printf("\nKetik Angka 1 Lalu Enter Untuk Melanjutkan : ");
         scanf("%d", &cont);
+        system("cls");
     }
 }
