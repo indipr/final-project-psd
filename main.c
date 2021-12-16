@@ -112,9 +112,9 @@ void beliBarang(node *rootPtr) {
             totalpengeluaran += data->modalBarang * jumlah;
             data->stokBarang -= jumlah;
             puts("\nDetail Barang Yang Anda Beli : ");
-            printf("Nama Barang %s Harga Barang %d Dan Jumlah %s Yang Dibeli %d\n",data->namaBarang,data->hargaBarang,data->namaBarang,jumlah);
+            printf("Nama Barang: %s \nHarga Barang: %d \nJumlah %s Yang Dibeli: %d\n",data->namaBarang,data->hargaBarang,data->namaBarang,jumlah);
         }
-        printf("\nKetik 1 Jika Ingin Menambah Pembelian, 0 Jika Ingin Membayar ");
+        printf("\nKetik 1 Jika Ingin Menambah Pembelian, 0 Jika Ingin Membayar: ");
         scanf("%d", &ulang);
     } while(ulang == 1);
 
